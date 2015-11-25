@@ -1,19 +1,14 @@
-WireCloud
+WireCloud for FIspace
 =========
 
-[![WireCloud license](https://img.shields.io/pypi/l/wirecloud.svg)](LICENSE.txt)
-[![WireCloud version](https://img.shields.io/pypi/v/wirecloud.svg)](https://pypi.python.org/pypi/wirecloud)
-[![WireCloud downloads](https://img.shields.io/pypi/dm/wirecloud.svg)](https://pypi.python.org/pypi/wirecloud)
-[![WireCloud continuous integration](https://build.conwet.etsiinf.upm.es/jenkins/view/Wirecloud/job/wirecloud-pip-develop-python2.7/badge/icon)](https://build.conwet.etsiinf.upm.es/jenkins/view/Wirecloud/job/wirecloud-pip-develop-python2.7/)
+This is a fork of Wirecloud to make it compatible to FIspace project.
 
-Please visit https://conwet.fi.upm.es/wirecloud for more info.
+
+
+Please visit Wirecloud homepage https://conwet.fi.upm.es/wirecloud for more info.
 
 ## Install
 
-    $ sudo pip install wirecloud
+    https://bitbucket.org/fispace/core/wiki/How%20to%20Install%20and%20configure%20Wirecloud%20GE%20version%200.7.2
 
-See the [installation and administration guide](docs/installation_and_admin_guide.md) for more info.
 
-## Bugs and feature requests
-
-Have a bug or a feature request? Please first read the [issue guidelines](CONTRIBUTING.md#using-the-issue-tracker) and search for existing and closed issues. If your problem or idea is not addressed yet, [please open a new issue](https://github.com/Wirecloud/wirecloud/issues/new).
