@@ -33,6 +33,7 @@ field, check OAuthBackend class for details on how to extend it.
 
 import base64
 import json
+import jwt
 from six.moves.urllib.parse import urlencode, urljoin, urlparse
 
 from django.conf import settings
@@ -43,8 +44,8 @@ from social_auth.backends import BaseOAuth2, OAuthBackend
 
 FIWARE_LAB_IDM_SERVER = 'https://account.lab.fiware.org'
 
-FIWARE_AUTHORIZATION_ENDPOINT = 'oauth2/authorize'
-FIWARE_ACCESS_TOKEN_ENDPOINT = 'oauth2/token'
+FIWARE_AUTHORIZATION_ENDPOINT = '/auth/realms/fispace/tokens/login'  #note that fispace is the realm's name
+FIWARE_ACCESS_TOKEN_ENDPOINT = '/auth/realms/fispace/tokens/access/codes'
 FIWARE_USER_DATA_ENDPOINT = 'user'
 
 
@@ -59,21 +60,17 @@ class FiwareBackend(OAuthBackend):
         ('expires_in', 'expires_in'),
     ]
     ID_KEY = 'username'
+    def get_user_id(self, details, response):
+        """Return the user id, FI-WARE IdM only provides username as a unique identifier"""
+        return details['username']
 
     def get_user_details(self, response):
         """Return user details from FIWARE account"""
-        name = response.get('displayName') or ''
-        first_name = ''
-        last_name = ''
-        if ' ' in name:
-            first_name, last_name = name.split(' ', 1)
-        else:
-            first_name = name
-        return {'username': response.get('username'),
+        return {'username': response.get('preferred_username'),
                 'email': response.get('email') or '',
-                'fullname': name,
-                'first_name': first_name,
-                'last_name': last_name}
+                'fullname': response.get('name') or '',
+                'first_name': response.get('given_name') or '',
+                'last_name': response.get('family_name') or ''}
 
 
 class FiwareAuth(BaseOAuth2):
@@ -83,7 +80,7 @@ class FiwareAuth(BaseOAuth2):
     USER_DATA_URL = urljoin(getattr(settings, 'FIWARE_IDM_SERVER', FIWARE_LAB_IDM_SERVER), FIWARE_USER_DATA_ENDPOINT)
     AUTH_BACKEND = FiwareBackend
     REDIRECT_STATE = False
-    STATE_PARAMETER = False
+    STATE_PARAMETER = True
     SETTINGS_KEY_NAME = 'FIWARE_APP_ID'
     SETTINGS_SECRET_NAME = 'FIWARE_APP_SECRET'
     SCOPE_SEPARATOR = ','
@@ -121,7 +118,10 @@ class FiwareAuth(BaseOAuth2):
 
     def user_data(self, access_token, *args, **kwargs):
         """Loads user data from service"""
-        return self._user_data(access_token)
+        #return self._user_data(access_token)
+        data = jwt.decode( access_token, verify=False )
+        data['username'] = data['preferred_username']
+        return data
 
 # Backend definition
 BACKENDS = {

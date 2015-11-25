@@ -89,10 +89,10 @@
 
 
             user_menu = this.user_button.getPopupMenu();
-            user_menu.append(new StyledElements.MenuItem(gettext('Settings'), function () {
-                var dialog = new Wirecloud.ui.PreferencesWindowMenu('platform', Wirecloud.preferences);
-                dialog.show();
-            }));
+          //  user_menu.append(new StyledElements.MenuItem(gettext('Settings'), function () {
+          //      var dialog = new Wirecloud.ui.PreferencesWindowMenu('platform', Wirecloud.preferences);
+          //      dialog.show();
+          //  }));
 
             if (Wirecloud.contextManager.get('isstaff') === true && 'DJANGO_ADMIN' in Wirecloud.URLs) {
                 user_menu.append(new StyledElements.MenuItem(gettext('DJango Admin panel'), function () {
@@ -101,7 +101,7 @@
             }
             user_menu.append(new Wirecloud.ui.TutorialSubMenu());
 
-            user_menu.append(new StyledElements.MenuItem(gettext('Sign out'), Wirecloud.logout));
+          //  user_menu.append(new StyledElements.MenuItem(gettext('Sign out'), Wirecloud.logout));
         }
     };
 

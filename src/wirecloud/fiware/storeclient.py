@@ -69,7 +69,7 @@ class StoreClient(object):
             'Accept': 'application/json',
             'Authorization': 'Bearer ' + token,
         }
-        response = requests.get(urljoin(self._url, 'api/offering/resources/plugins'), headers=headers)
+        response = requests.get(urljoin(self._url, 'api/offering/resources/plugins'), headers=headers, verify=False)
 
         if response.status_code != 200:
             raise UnexpectedResponse(response)
@@ -82,7 +82,7 @@ class StoreClient(object):
             'Accept': 'application/json',
             'Authorization': 'Bearer ' + token,
         }
-        response = requests.get(urljoin(self._url, 'api/offering/offerings/' + offering_id), headers=headers)
+        response = requests.get(urljoin(self._url, 'api/offering/offerings/' + offering_id), headers=headers, verify=False)
 
         if response.status_code == 404:
             raise NotFound()
@@ -103,7 +103,7 @@ class StoreClient(object):
             'offering': offering_url,
             'redirect_uri': redirect_uri
         }
-        response = requests.post(urljoin(self._url, 'api/contracting/form'), data=json.dumps(data, ensure_ascii=False), headers=headers)
+        response = requests.post(urljoin(self._url, 'api/contracting/form'), data=json.dumps(data, ensure_ascii=False), headers=headers, verify=False)
 
         if response.status_code == 404:
             raise NotFound
@@ -118,7 +118,7 @@ class StoreClient(object):
             'Authorization': 'Bearer ' + token,
         }
 
-        response = requests.get(urljoin(self._url, url), headers=headers)
+        response = requests.get(urljoin(self._url, url), headers=headers, verify=False)
 
         if response.status_code not in (200, 201, 204):
             raise UnexpectedResponse(response)
@@ -145,7 +145,7 @@ class StoreClient(object):
 
         # Rest file to ensure the full file is uploaded
         f.seek(0);
-        response = requests.post(urljoin(self._url, 'api/offering/resources'), headers=headers, data=data, files={'file': (filename, f)})
+        response = requests.post(urljoin(self._url, 'api/offering/resources'), headers=headers, verify=False, data=data, files={'file': (filename, f)})
         if response.status_code == 409:
             raise Conflict('Resource already exists')
 
